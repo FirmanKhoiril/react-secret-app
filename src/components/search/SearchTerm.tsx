@@ -1,33 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { fetchDataPorn } from "../../api/fetchDataP";
 import Error from "../../Error";
-import { Loading, Card } from "../../components";
+import { Loading, Card, Sites } from "../../components";
+import { Pagination, Container } from "@mui/material";
 
 const SearchTerm = () => {
+  const [page, setPage] = useState(1);
+  const [sites, setSites] = useState<string>("");
   const { searchTerm } = useParams();
 
   const fetchDataSearch = async () => {
-    const res = await fetchDataPorn(`search?query=${searchTerm}&page=1&quality=hd&timeout=2000`);
+    const res = await fetchDataPorn(`search?query=${searchTerm}&site=${sites}&page=${page}&quality=hd&timeout=2000`);
     return res;
   };
 
-  const { data, isError, error, isFetching, isLoading } = useQuery(["search", searchTerm], fetchDataSearch, {
+  const { data, isError, isSuccess, error, isFetching, isLoading } = useQuery(["search", searchTerm, page, sites], fetchDataSearch, {
     refetchOnWindowFocus: false,
   });
-  if (isLoading && isFetching) return <Loading />;
   const porns = data?.data?.data?.map((item: any) => item);
 
-  if (isError) return <Error error={error} />;
-
   return (
-    <div>
-      <h2 className=" text-center text-sky-500 font-poppin text-2xl mt-1">Result for {searchTerm} :)</h2>
-      {porns?.map((link: object, idx: number) => (
-        <Card datas={link} key={idx} />
-      ))}
-    </div>
+    <Container>
+      <Sites setSites={setSites} />
+
+      {isSuccess && (
+        <>
+          <Pagination count={10} size={"small"} onChange={(e, value) => setPage(value)} defaultPage={1} className="my-10 flex justify-center" shape="rounded" color="primary" />
+          {porns?.map((link: object, idx: number) => (
+            <Card datas={link} key={idx} />
+          ))}
+          <Pagination count={10} onChange={(e, value) => setPage(value)} defaultPage={1} className="my-10 flex justify-center" size="small" shape="rounded" color="primary" />
+        </>
+      )}
+
+      {isError && <Error error={error} />}
+      {isLoading && isFetching && <Loading />}
+    </Container>
   );
 };
 

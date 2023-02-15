@@ -7,7 +7,7 @@ import { Home, Favorit } from "./pages";
 const App = () => {
   const [dark, setDark] = useState(false);
   return (
-    <div className={`${dark ? "dark" : "light"} text-white bg-black/80 `}>
+    <div className={`${dark ? "dark" : "light"} text-white bg-white/60 `}>
       <BrowserRouter>
         <Navbar />
         <div className="px-1">

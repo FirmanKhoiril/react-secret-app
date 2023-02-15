@@ -1,5 +1,4 @@
 import { AiFillEye } from "react-icons/ai";
-import { Link } from "react-router-dom";
 
 interface Props {
   previewVideo: string;
@@ -13,7 +12,7 @@ const Card = ({ datas: { links } }: any) => {
   return (
     <div className="flex ml-10 md:ml-20  flex-wrap">
       {links?.map((item: Props, idx: number) => (
-        <div key={idx} className=" px-8 py-4 my-2 mx-1 overflow-hidden flex flex-col bg-white/10">
+        <div key={idx} className=" px-8 py-4 my-2 mx-1 overflow-hidden flex flex-col bg-black/60 rounded-md">
           <img src={item.image} alt={item.title.slice(0, 40)} className="w-40 h-32" />
           <video controls poster={item.image} className="w-40 h-40">
             <source src={item.previewVideo} type="video/mp4" />

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const textHover: string = "hover:underline hover:text-sky-200";
 const Navbar = () => {
   return (
-    <div className="flex justify-around items-center sticky top-0 bg-black/50 p-3">
+    <div className="flex justify-around items-center sticky top-0 bg-black/70 p-3">
       <div>
         <Link to="/" className="flex space-x-2 items-center ">
           <FaWaze className="text-2xl text-blue-400" />
